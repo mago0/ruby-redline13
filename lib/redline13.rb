@@ -3,6 +3,8 @@ require 'json'
 require 'pp'
 require 'rest-client'
 
+module Redline13
+
 # This class creates a Redline13 Jmeter test and provides methods for
 # checking status and retrieving output of the test upon completion.
 
@@ -27,6 +29,14 @@ class JMeter
     'jmeter.save.saveservice.default_delimiter' => ';',
     'jmeter.save.saveservice.subresults' => 'false',
   }
+  DEFAULT_TEST_PARAMS = {
+    'testType' => 'jmeter-test',
+    'storeOutput' => 'T',
+    'version' => '3.1',
+    'plugin[0]' => 'standard',
+    'plugin[1]' => 'extras',
+    'plugin[2]' => 'extraswithlibs',
+  }
 
   # Instantiation of this class results in a new load test.
   #
@@ -35,16 +45,15 @@ class JMeter
   # [aws_keypair_id]      The AWS keypair_id assigned to Redline13
   # [name]                Name of the test
   # [file]                Jmeter test file
-  # [num_servers]         Total number of servers running load-agent
-  # [servers]             Hash of server definitions.
+  # [servers]             Array of server definitions.
   # Example:
-  #  { "servers[0][location]"=>"us-west-2",
-  #    "servers[0][subnetId]"=>"subnet-fa5a4592",
-  #    "servers[0][associatePublicIpAddress]"=>"T",
-  #    "servers[0][size]"=>"m4.xlarge",
-  #    "servers[0][num]"=>1,
-  #    "servers[0][onDemand]"=>"T",
-  #    "servers[0][usersPerServer]"=>1 }
+  #  [{ 'location'                  => 'us-west-2',
+  #     'subnetId'                  => 'subnet-xyz',
+  #     'associatePublicIpAddress'  => 'T',
+  #     'size'                      => 'm4.xlarge',
+  #     'num'                       => 1,
+  #     'onDemand'                  => 'T' }]
+  # All of the above parameters are required
   #
   # ==Optional Parameters:
   # [jvm_args]            Array of JVM arguments 
@@ -52,7 +61,7 @@ class JMeter
   # [ubik_stream_plugin]  Set true to enable plugin. default: false
   # [ubik_license_file]   Path to ubik license file (if enabled)
   # [dry_run]             Set false to execute test. default: true 
-  def initialize(key, aws_keypair_id, name, file, num_servers, servers,
+  def initialize(key, aws_keypair_id, name, file, servers,
                  jvm_args = [], jmeter_opts = {},
                  ubik_stream_plugin = false, ubik_license_file = nil,
                  dry_run = true)
@@ -65,23 +74,27 @@ class JMeter
         'X-Redline-Auth': key
       }
     )
+    server_cnt = 0
+    servers.each { |server| server_cnt += server['num'] }
+    formatted_servers = Hash.new 
+    iteration = 0
+    servers.each do |server|
+      server.each { |k,v| formatted_servers["servers[#{iteration}][#{k}]"] = v }
+      # Set manually because this doesn't matter for JMeter tests
+      formatted_servers["servers[#{iteration}][usersPerServer]"] = 1
+      iteration += 1
+    end
     test_params = {
-      'testType' => 'jmeter-test',
-      'storeOutput' => 'T',
-      'version' => '3.1',
-      'plugin[0]' => 'standard',
-      'plugin[1]' => 'extras',
-      'plugin[2]' => 'extraswithlibs',
       'key' => key,
       'key_pair_id' => aws_keypair_id,
       'name' => name,
       'file' => File.new(file, "rb"),
-      'numServers' => num_servers
-    }.merge(servers)
-    unless (jvm_args.empty?)
+      'numServers' => server_cnt
+    }.merge(DEFAULT_TEST_PARAMS).merge(formatted_servers)
+    if (!jvm_args.empty?)
       test_params['jvm_args'] = (jvm_args + DEFAULT_JVM_ARGS).join(' ').to_s.strip
     end
-    unless (jmeter_opts.empty?)
+    if (!jmeter_opts.empty?)
       test_params['opts'] = jmeter_opts.merge(DEFAULT_JM_OPTS).map do |k,v| 
         "-J#{k}='#{v}'"
       end.join(' ').to_s.strip
@@ -94,9 +107,8 @@ class JMeter
         'jmeter-ubikstream-license' => ubik_license
       })
     end
-   
+
     @test_params = test_params
-    @num_servers = num_servers
     @ubik_stream_plugin = ubik_stream_plugin
     @dry_run = dry_run
 
@@ -105,11 +117,6 @@ class JMeter
     else
       @test_id = JSON.parse(@client['/LoadTest'].post(test_params))['loadTestId'] || nil
     end
-  end
-
-  # Returns test ID. Returns nil if dry_run or API error.
-  def getTestId
-    @test_id
   end
 
   # Returns test start time. Returns nil if dry_run or test not yet started
@@ -153,5 +160,12 @@ class JMeter
     }) : @test_params
     "Test Parameters:\n#{test_params.pretty_inspect}\nTestID: #{@test_id ? @test_id : 'nil'}" 
   end 
+
+  # Returns test ID. Returns nil if dry_run or API error.
+  def getTestId
+    @test_id
+  end
+
+end # JMeter Class
 
 end
