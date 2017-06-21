@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class JMeter - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+  var index_rel_prefix = "./";
+</script>
+
+<script src="./js/jquery.js"></script>
+<script src="./js/darkfish.js"></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="./index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    <div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  
+  <p class="link">Object
+  
+</div>
+
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-c-new">::new</a>
+    
+    <li ><a href="#method-i-getCompleted">#getCompleted</a>
+    
+    <li ><a href="#method-i-getFullStatus">#getFullStatus</a>
+    
+    <li ><a href="#method-i-getOutputFiles">#getOutputFiles</a>
+    
+    <li ><a href="#method-i-getStarted">#getStarted</a>
+    
+    <li ><a href="#method-i-getTestId">#getTestId</a>
+    
+    <li ><a href="#method-i-to_s">#to_s</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-JMeter">
+  <h1 id="class-JMeter" class="class">
+    class JMeter
+  </h1>
+
+  <section class="description">
+    
+<p>This class creates a Redline13 Jmeter test and provides methods for
+checking status and retrieving output of the test upon completion.</p>
+
+  </section>
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <section class="constants-list">
+      <header>
+        <h3>Constants</h3>
+      </header>
+      <dl>
+      
+        <dt id="API_URL">API_URL
+        
+        <dd>
+        
+      
+        <dt id="DEFAULT_JM_OPTS">DEFAULT_JM_OPTS
+        
+        <dd>
+        
+      
+        <dt id="DEFAULT_JVM_ARGS">DEFAULT_JVM_ARGS
+        
+        <dd>
+        
+      
+      </dl>
+    </section>
+    
+
+    
+
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(key, aws_keypair_id, name, file, num_servers, servers, jvm_args = [], jmeter_opts = {}, ubik_stream_plugin = false, ubik_license_file = nil, dry_run = true)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Instantiation of this class results in a new load test.</p>
+
+<h2 id="method-c-new-label-Required+Parameters-3A">Required Parameters:<span><a href="#method-c-new-label-Required+Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<dl class="rdoc-list label-list"><dt>key
+<dd>
+<p>Redline13 API Key</p>
+</dd><dt>aws_keypair_id
+<dd>
+<p>The AWS keypair_id assigned to Redline13</p>
+</dd><dt>name
+<dd>
+<p>Name of the test</p>
+</dd><dt>file
+<dd>
+<p>Jmeter test file</p>
+</dd><dt>num_servers
+<dd>
+<p>Total number of servers running load-agent</p>
+</dd><dt>servers
+<dd>
+<p>Hash of server definitions.</p>
+</dd></dl>
+
+<p>Example:</p>
+
+<pre class="ruby">{ <span class="ruby-string">&quot;servers[0][location]&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;us-west-2&quot;</span>,
+  <span class="ruby-string">&quot;servers[0][subnetId]&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;subnet-fa5a4592&quot;</span>,
+  <span class="ruby-string">&quot;servers[0][associatePublicIpAddress]&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;T&quot;</span>,
+  <span class="ruby-string">&quot;servers[0][size]&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;m4.xlarge&quot;</span>,
+  <span class="ruby-string">&quot;servers[0][num]&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-value">1</span>,
+  <span class="ruby-string">&quot;servers[0][onDemand]&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;T&quot;</span>,
+  <span class="ruby-string">&quot;servers[0][usersPerServer]&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-value">1</span> }
+</pre>
+
+<h2 id="method-c-new-label-Optional+Parameters-3A">Optional Parameters:<span><a href="#method-c-new-label-Optional+Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<dl class="rdoc-list label-list"><dt>jvm_args
+<dd>
+<p>Array of JVM arguments</p>
+</dd><dt>jmeter_opts
+<dd>
+<p>Hash of Jmeter arguments</p>
+</dd><dt>ubik_stream_plugin
+<dd>
+<p>Set true to enable plugin. default: false</p>
+</dd><dt>ubik_license_file
+<dd>
+<p>Path to ubik license file (if enabled)</p>
+</dd><dt>dry_run
+<dd>
+<p>Set false to execute test. default: true</p>
+</dd></dl>
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/redline13.rb, line 55</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">aws_keypair_id</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">file</span>, <span class="ruby-identifier">num_servers</span>, <span class="ruby-identifier">servers</span>,
+               <span class="ruby-identifier">jvm_args</span> = [], <span class="ruby-identifier">jmeter_opts</span> = {},
+               <span class="ruby-identifier">ubik_stream_plugin</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">ubik_license_file</span> = <span class="ruby-keyword">nil</span>,
+               <span class="ruby-identifier">dry_run</span> = <span class="ruby-keyword">true</span>)
+
+  <span class="ruby-ivar">@client</span> = <span class="ruby-constant">RestClient</span><span class="ruby-operator">::</span><span class="ruby-constant">Resource</span>.<span class="ruby-identifier">new</span>(
+    <span class="ruby-constant">API_URL</span>,
+    <span class="ruby-string">&#39;headers&#39;</span><span class="ruby-operator">:</span> {
+      <span class="ruby-string">&#39;Accept&#39;</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;application/json&#39;</span>,
+      <span class="ruby-string">&#39;Content-Type&#39;</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;application/x-www-form-urlencoded&#39;</span>,
+      <span class="ruby-string">&#39;X-Redline-Auth&#39;</span><span class="ruby-operator">:</span> <span class="ruby-identifier">key</span>
+    }
+  )
+  <span class="ruby-identifier">test_params</span> = {
+    <span class="ruby-string">&#39;testType&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;jmeter-test&#39;</span>,
+    <span class="ruby-string">&#39;storeOutput&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;T&#39;</span>,
+    <span class="ruby-string">&#39;version&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;3.1&#39;</span>,
+    <span class="ruby-string">&#39;plugin[0]&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;standard&#39;</span>,
+    <span class="ruby-string">&#39;plugin[1]&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;extras&#39;</span>,
+    <span class="ruby-string">&#39;plugin[2]&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;extraswithlibs&#39;</span>,
+    <span class="ruby-string">&#39;key&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">key</span>,
+    <span class="ruby-string">&#39;key_pair_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">aws_keypair_id</span>,
+    <span class="ruby-string">&#39;name&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">name</span>,
+    <span class="ruby-string">&#39;file&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">file</span>, <span class="ruby-string">&quot;rb&quot;</span>),
+    <span class="ruby-string">&#39;numServers&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">num_servers</span>
+  }.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">servers</span>)
+  <span class="ruby-keyword">unless</span> (<span class="ruby-identifier">jvm_args</span>.<span class="ruby-identifier">empty?</span>)
+    <span class="ruby-identifier">test_params</span>[<span class="ruby-string">&#39;jvm_args&#39;</span>] = (<span class="ruby-identifier">jvm_args</span> <span class="ruby-operator">+</span> <span class="ruby-constant">DEFAULT_JVM_ARGS</span>).<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39; &#39;</span>).<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">strip</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">unless</span> (<span class="ruby-identifier">jmeter_opts</span>.<span class="ruby-identifier">empty?</span>)
+    <span class="ruby-identifier">test_params</span>[<span class="ruby-string">&#39;opts&#39;</span>] = <span class="ruby-identifier">jmeter_opts</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-constant">DEFAULT_JM_OPTS</span>).<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span> 
+      <span class="ruby-node">&quot;-J#{k}=&#39;#{v}&#39;&quot;</span>
+    <span class="ruby-keyword">end</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39; &#39;</span>).<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">strip</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> (<span class="ruby-identifier">ubik_stream_plugin</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">ubik_license_file</span>) 
+    <span class="ruby-identifier">ubik_license</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">ubik_license_file</span>, <span class="ruby-string">&quot;rb&quot;</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span> <span class="ruby-identifier">file</span>.<span class="ruby-identifier">read</span> }
+    <span class="ruby-identifier">test_params</span>.<span class="ruby-identifier">merge!</span>({
+      <span class="ruby-string">&#39;ulp_hls_player.max_connections_per_client&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;500&#39;</span>,
+      <span class="ruby-string">&#39;plugin[3]&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;ubikstream&#39;</span>, 
+      <span class="ruby-string">&#39;jmeter-ubikstream-license&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">ubik_license</span>
+    })
+  <span class="ruby-keyword">end</span>
+ 
+  <span class="ruby-ivar">@test_params</span> = <span class="ruby-identifier">test_params</span>
+  <span class="ruby-ivar">@num_servers</span> = <span class="ruby-identifier">num_servers</span>
+  <span class="ruby-ivar">@ubik_stream_plugin</span> = <span class="ruby-identifier">ubik_stream_plugin</span>
+  <span class="ruby-ivar">@dry_run</span> = <span class="ruby-identifier">dry_run</span>
+
+  <span class="ruby-keyword">if</span> (<span class="ruby-identifier">dry_run</span>)
+    <span class="ruby-ivar">@test_id</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@test_id</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-ivar">@client</span>[<span class="ruby-string">&#39;/LoadTest&#39;</span>].<span class="ruby-identifier">post</span>(<span class="ruby-identifier">test_params</span>))[<span class="ruby-string">&#39;loadTestId&#39;</span>] <span class="ruby-operator">||</span> <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-getCompleted" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">getCompleted</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns test completed time. Returns nil if dry_run or test not yet
+completed.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="getCompleted-source">
+            <pre><span class="ruby-comment"># File lib/redline13.rb, line 125</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">getCompleted</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@dry_run</span>
+    <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-ivar">@client</span>[<span class="ruby-node">&quot;/LoadTest?loadTestId=#{@test_id}&quot;</span>].<span class="ruby-identifier">get</span>)[<span class="ruby-value">0</span>].<span class="ruby-identifier">to_h</span>[<span class="ruby-string">&#39;completed_time&#39;</span>]
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-getFullStatus" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">getFullStatus</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns full test status from Redline13</p>
+          
+          
+
+          
+          <div class="method-source-code" id="getFullStatus-source">
+            <pre><span class="ruby-comment"># File lib/redline13.rb, line 145</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">getFullStatus</span>
+  <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-ivar">@client</span>[<span class="ruby-node">&quot;/LoadTest?loadTestId=#{@test_id}&quot;</span>].<span class="ruby-identifier">get</span>)[<span class="ruby-value">0</span>].<span class="ruby-identifier">to_h</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-getOutputFiles" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">getOutputFiles</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns list of output files. Returns nil if test not completed or output
+file number doesn&#39;t matche num_servers</p>
+          
+          
+
+          
+          <div class="method-source-code" id="getOutputFiles-source">
+            <pre><span class="ruby-comment"># File lib/redline13.rb, line 135</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">getOutputFiles</span>
+  <span class="ruby-keyword">if</span> (<span class="ruby-keyword">self</span>.<span class="ruby-identifier">getCompleted</span>)
+    <span class="ruby-identifier">file_list</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-ivar">@client</span>[<span class="ruby-node">&quot;/StatsDownloadUrls?loadTestId=#{@test_id}&quot;</span>].<span class="ruby-identifier">get</span>)[<span class="ruby-string">&#39;outputFiles&#39;</span>]
+    <span class="ruby-keyword">if</span> (<span class="ruby-identifier">file_list</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">file_list</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@num_servers</span>)
+      <span class="ruby-identifier">file_list</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-getStarted" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">getStarted</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns test start time. Returns nil if dry_run or test not yet started</p>
+          
+          
+
+          
+          <div class="method-source-code" id="getStarted-source">
+            <pre><span class="ruby-comment"># File lib/redline13.rb, line 116</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">getStarted</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@dry_run</span>
+    <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-ivar">@client</span>[<span class="ruby-node">&quot;/LoadTest?loadTestId=#{@test_id}&quot;</span>].<span class="ruby-identifier">get</span>)[<span class="ruby-value">0</span>].<span class="ruby-identifier">to_h</span>[<span class="ruby-string">&#39;start_time&#39;</span>]
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-getTestId" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">getTestId</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns test ID. Returns nil if dry_run or API error.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="getTestId-source">
+            <pre><span class="ruby-comment"># File lib/redline13.rb, line 111</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">getTestId</span>
+  <span class="ruby-ivar">@test_id</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-to_s" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_s</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns full definition of parameters for API call</p>
+          
+          
+
+          
+          <div class="method-source-code" id="to_s-source">
+            <pre><span class="ruby-comment"># File lib/redline13.rb, line 150</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
+  <span class="ruby-identifier">test_params</span> = <span class="ruby-ivar">@ubik_stream_plugin</span> <span class="ruby-operator">?</span> <span class="ruby-ivar">@test_params</span>.<span class="ruby-identifier">merge</span>({
+    <span class="ruby-string">&#39;jmeter-ubikstream-license&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;TRUNCATED&#39;</span>
+  }) <span class="ruby-operator">:</span> <span class="ruby-ivar">@test_params</span>
+  <span class="ruby-node">&quot;Test Parameters:\n#{test_params.pretty_inspect}\nTestID: #{@test_id ? @test_id : &#39;nil&#39;}&quot;</span> 
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://rdoc.github.io/rdoc">RDoc</a> 5.0.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+
