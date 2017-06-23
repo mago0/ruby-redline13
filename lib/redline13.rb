@@ -74,8 +74,8 @@ class JMeter
         'X-Redline-Auth': key
       }
     )
-    server_cnt = 0
-    servers.each { |server| server_cnt += server['num'] }
+    @server_cnt = 0
+    servers.each { |server| @server_cnt += server['num'] }
     formatted_servers = Hash.new 
     iteration = 0
     servers.each do |server|
@@ -89,7 +89,7 @@ class JMeter
       'key_pair_id' => aws_keypair_id,
       'name' => name,
       'file' => File.new(file, "rb"),
-      'numServers' => server_cnt
+      'numServers' => @server_cnt
     }.merge(DEFAULT_TEST_PARAMS).merge(formatted_servers)
     if (!jvm_args.empty?)
       test_params['jvm_args'] = (jvm_args + DEFAULT_JVM_ARGS).join(' ').to_s.strip
@@ -138,11 +138,11 @@ class JMeter
   end
  
   # Returns list of output files. Returns nil if test not completed or output
-  # file number doesn't matche num_servers
+  # file number doesn't match server_cnt
   def getOutputFiles
     if (self.getCompleted)
       file_list = JSON.parse(@client["/StatsDownloadUrls?loadTestId=#{@test_id}"].get)['outputFiles']
-      if (file_list && file_list.length == @num_servers)
+      if (file_list && file_list.length == @server_cnt)
         file_list
       end
     end
