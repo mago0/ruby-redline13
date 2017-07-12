@@ -13,10 +13,14 @@ require 'redline13'
 
 timestamp = Time.now.strftime('%Y-%m-%d %H:%M:%S')
 
-redline_key = 'xyz'
-aws_keypair_id = 'xyz'
-test_name = 'Example'
-test_file = "/Path/to/Example.jmx"
+settings = Hash.new
+%w{ api_key aws_keypair_id jmx_file test_name srv_cnt dry_run }.each do |name|
+  if (!settings[name] = ENV["REDLINE_#{name.upcase}"])
+    puts "REDLINE_#{name.upcase} Environment Variable Must be Set"
+    exit 1
+  end
+end
+dry_run = (settings['dry_run'].downcase == 'true') ? true : false
 # Uncomment following lines to run a Ubik based test
 #ubik_plugin_enabled = true
 #ubik_license = "#{base_path}/ubik-plugin.license"
@@ -40,7 +44,7 @@ jmeter_opts = { 'threads' => 100, 'rampup' => 60 }
 test = Redline13::JMeter.new(redline_key,
                              aws_keypair_id,
                              test_name,
-                             test_file,
+                             jmx_file,
                              servers,
                              jvm_args,
                              jmeter_opts,
