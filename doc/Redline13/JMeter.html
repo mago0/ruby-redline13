@@ -156,7 +156,7 @@ upon completion.</p>
         
         <div class="method-heading">
           <span class="method-name">new</span><span
-            class="method-args">(key, aws_keypair_id, name, file, servers, jvm_args = [], jmeter_opts = {}, ubik_stream_plugin = false, ubik_license_file = nil, dry_run = true)</span>
+            class="method-args">(key, aws_keypair_id, name, file, servers, csv_file = nil, jvm_args = [], jmeter_opts = {}, ubik_stream_plugin = false, ubik_license_file = nil, dry_run = true)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -198,7 +198,10 @@ upon completion.</p>
 <p>All of the above parameters are required</p>
 
 <h2 id="method-c-new-label-Optional+Parameters-3A">Optional Parameters:<span><a href="#method-c-new-label-Optional+Parameters-3A">&para;</a> <a href="#top">&uarr;</a></span></h2>
-<dl class="rdoc-list label-list"><dt>jvm_args
+<dl class="rdoc-list label-list"><dt>csv_file
+<dd>
+<p>Path to any additonal test files</p>
+</dd><dt>jvm_args
 <dd>
 <p>Array of JVM arguments</p>
 </dd><dt>jmeter_opts
@@ -219,9 +222,9 @@ upon completion.</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/redline13.rb, line 64</span>
+            <pre><span class="ruby-comment"># File lib/redline13.rb, line 65</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">aws_keypair_id</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">file</span>, <span class="ruby-identifier">servers</span>,
-               <span class="ruby-identifier">jvm_args</span> = [], <span class="ruby-identifier">jmeter_opts</span> = {},
+               <span class="ruby-identifier">csv_file</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">jvm_args</span> = [], <span class="ruby-identifier">jmeter_opts</span> = {},
                <span class="ruby-identifier">ubik_stream_plugin</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">ubik_license_file</span> = <span class="ruby-keyword">nil</span>,
                <span class="ruby-identifier">dry_run</span> = <span class="ruby-keyword">true</span>)
 
@@ -233,8 +236,8 @@ upon completion.</p>
       <span class="ruby-string">&#39;X-Redline-Auth&#39;</span><span class="ruby-operator">:</span> <span class="ruby-identifier">key</span>
     }
   )
-  <span class="ruby-identifier">server_cnt</span> = <span class="ruby-value">0</span>
-  <span class="ruby-identifier">servers</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">server</span><span class="ruby-operator">|</span> <span class="ruby-identifier">server_cnt</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">server</span>[<span class="ruby-string">&#39;num&#39;</span>] }
+  <span class="ruby-ivar">@server_cnt</span> = <span class="ruby-value">0</span>
+  <span class="ruby-identifier">servers</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">server</span><span class="ruby-operator">|</span> <span class="ruby-ivar">@server_cnt</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">server</span>[<span class="ruby-string">&#39;num&#39;</span>] }
   <span class="ruby-identifier">formatted_servers</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span> 
   <span class="ruby-identifier">iteration</span> = <span class="ruby-value">0</span>
   <span class="ruby-identifier">servers</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">server</span><span class="ruby-operator">|</span>
@@ -248,7 +251,7 @@ upon completion.</p>
     <span class="ruby-string">&#39;key_pair_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">aws_keypair_id</span>,
     <span class="ruby-string">&#39;name&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">name</span>,
     <span class="ruby-string">&#39;file&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">file</span>, <span class="ruby-string">&quot;rb&quot;</span>),
-    <span class="ruby-string">&#39;numServers&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">server_cnt</span>
+    <span class="ruby-string">&#39;numServers&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@server_cnt</span>
   }.<span class="ruby-identifier">merge</span>(<span class="ruby-constant">DEFAULT_TEST_PARAMS</span>).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">formatted_servers</span>)
   <span class="ruby-keyword">if</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">jvm_args</span>.<span class="ruby-identifier">empty?</span>)
     <span class="ruby-identifier">test_params</span>[<span class="ruby-string">&#39;jvm_args&#39;</span>] = (<span class="ruby-identifier">jvm_args</span> <span class="ruby-operator">+</span> <span class="ruby-constant">DEFAULT_JVM_ARGS</span>).<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39; &#39;</span>).<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">strip</span>
@@ -265,6 +268,9 @@ upon completion.</p>
       <span class="ruby-string">&#39;plugin[3]&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;ubikstream&#39;</span>, 
       <span class="ruby-string">&#39;jmeter-ubikstream-license&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">ubik_license</span>
     })
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> (<span class="ruby-identifier">csv_file</span>)
+    <span class="ruby-identifier">test_params</span>.<span class="ruby-identifier">merge!</span>({ <span class="ruby-string">&#39;extras[]&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">csv_file</span>, <span class="ruby-string">&quot;rb&quot;</span>) })
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-ivar">@test_params</span> = <span class="ruby-identifier">test_params</span>
@@ -315,7 +321,7 @@ completed.</p>
 
           
           <div class="method-source-code" id="getCompleted-source">
-            <pre><span class="ruby-comment"># File lib/redline13.rb, line 132</span>
+            <pre><span class="ruby-comment"># File lib/redline13.rb, line 136</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">getCompleted</span>
   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@dry_run</span>
     <span class="ruby-keyword">nil</span>
@@ -352,7 +358,7 @@ completed.</p>
 
           
           <div class="method-source-code" id="getFullStatus-source">
-            <pre><span class="ruby-comment"># File lib/redline13.rb, line 152</span>
+            <pre><span class="ruby-comment"># File lib/redline13.rb, line 156</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">getFullStatus</span>
   <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-ivar">@client</span>[<span class="ruby-node">&quot;/LoadTest?loadTestId=#{@test_id}&quot;</span>].<span class="ruby-identifier">get</span>)[<span class="ruby-value">0</span>].<span class="ruby-identifier">to_h</span>
 <span class="ruby-keyword">end</span></pre>
@@ -380,17 +386,17 @@ completed.</p>
         <div class="method-description">
           
           <p>Returns list of output files. Returns nil if test not completed or output
-file number doesn&#39;t matche num_servers</p>
+file number doesn&#39;t match server_cnt</p>
           
           
 
           
           <div class="method-source-code" id="getOutputFiles-source">
-            <pre><span class="ruby-comment"># File lib/redline13.rb, line 142</span>
+            <pre><span class="ruby-comment"># File lib/redline13.rb, line 146</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">getOutputFiles</span>
   <span class="ruby-keyword">if</span> (<span class="ruby-keyword">self</span>.<span class="ruby-identifier">getCompleted</span>)
     <span class="ruby-identifier">file_list</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-ivar">@client</span>[<span class="ruby-node">&quot;/StatsDownloadUrls?loadTestId=#{@test_id}&quot;</span>].<span class="ruby-identifier">get</span>)[<span class="ruby-string">&#39;outputFiles&#39;</span>]
-    <span class="ruby-keyword">if</span> (<span class="ruby-identifier">file_list</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">file_list</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@num_servers</span>)
+    <span class="ruby-keyword">if</span> (<span class="ruby-identifier">file_list</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">file_list</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@server_cnt</span>)
       <span class="ruby-identifier">file_list</span>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
@@ -424,7 +430,7 @@ file number doesn&#39;t matche num_servers</p>
 
           
           <div class="method-source-code" id="getStarted-source">
-            <pre><span class="ruby-comment"># File lib/redline13.rb, line 123</span>
+            <pre><span class="ruby-comment"># File lib/redline13.rb, line 127</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">getStarted</span>
   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@dry_run</span>
     <span class="ruby-keyword">nil</span>
@@ -461,7 +467,7 @@ file number doesn&#39;t matche num_servers</p>
 
           
           <div class="method-source-code" id="getTestId-source">
-            <pre><span class="ruby-comment"># File lib/redline13.rb, line 165</span>
+            <pre><span class="ruby-comment"># File lib/redline13.rb, line 167</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">getTestId</span>
   <span class="ruby-ivar">@test_id</span>
 <span class="ruby-keyword">end</span></pre>
@@ -494,11 +500,9 @@ file number doesn&#39;t matche num_servers</p>
 
           
           <div class="method-source-code" id="to_s-source">
-            <pre><span class="ruby-comment"># File lib/redline13.rb, line 157</span>
+            <pre><span class="ruby-comment"># File lib/redline13.rb, line 161</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
-  <span class="ruby-identifier">test_params</span> = <span class="ruby-ivar">@ubik_stream_plugin</span> <span class="ruby-operator">?</span> <span class="ruby-ivar">@test_params</span>.<span class="ruby-identifier">merge</span>({
-    <span class="ruby-string">&#39;jmeter-ubikstream-license&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;TRUNCATED&#39;</span>
-  }) <span class="ruby-operator">:</span> <span class="ruby-ivar">@test_params</span>
+  <span class="ruby-identifier">test_params</span> = <span class="ruby-ivar">@ubik_stream_plugin</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">test_params</span>.<span class="ruby-identifier">merge</span>({ <span class="ruby-string">&#39;jmeter-ubikstream-license&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;TRUNCATED&#39;</span> }) <span class="ruby-operator">:</span> <span class="ruby-ivar">@test_params</span>
   <span class="ruby-node">&quot;Test Parameters:\n#{test_params.pretty_inspect}\nTestID: #{@test_id ? @test_id : &#39;nil&#39;}&quot;</span> 
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -519,7 +523,7 @@ file number doesn&#39;t matche num_servers</p>
 
 <footer id="validator-badges" role="contentinfo">
   <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="https://rdoc.github.io/rdoc">RDoc</a> 5.0.0.
+  <p>Generated by <a href="https://rdoc.github.io/rdoc">RDoc</a> 5.1.0.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

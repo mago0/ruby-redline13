@@ -56,13 +56,14 @@ class JMeter
   # All of the above parameters are required
   #
   # ==Optional Parameters:
+  # [csv_file]            Path to any additonal test files
   # [jvm_args]            Array of JVM arguments 
   # [jmeter_opts]         Hash of Jmeter arguments
   # [ubik_stream_plugin]  Set true to enable plugin. default: false
   # [ubik_license_file]   Path to ubik license file (if enabled)
   # [dry_run]             Set false to execute test. default: true 
   def initialize(key, aws_keypair_id, name, file, servers,
-                 jvm_args = [], jmeter_opts = {},
+                 csv_file = nil, jvm_args = [], jmeter_opts = {},
                  ubik_stream_plugin = false, ubik_license_file = nil,
                  dry_run = true)
 
@@ -106,6 +107,9 @@ class JMeter
         'plugin[3]' => 'ubikstream', 
         'jmeter-ubikstream-license' => ubik_license
       })
+    end
+    if (csv_file)
+      test_params.merge!({ 'extras[]' => File.new(csv_file, "rb") })
     end
 
     @test_params = test_params
@@ -155,9 +159,7 @@ class JMeter
 
   # Returns full definition of parameters for API call
   def to_s
-    test_params = @ubik_stream_plugin ? @test_params.merge({
-      'jmeter-ubikstream-license' => 'TRUNCATED'
-    }) : @test_params
+    test_params = @ubik_stream_plugin ? test_params.merge({ 'jmeter-ubikstream-license' => 'TRUNCATED' }) : @test_params
     "Test Parameters:\n#{test_params.pretty_inspect}\nTestID: #{@test_id ? @test_id : 'nil'}" 
   end 
 

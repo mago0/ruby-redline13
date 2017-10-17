@@ -25,6 +25,9 @@ dry_run = (settings['dry_run'].downcase == 'true') ? true : false
 #ubik_plugin_enabled = true
 #ubik_license = "#{base_path}/ubik-plugin.license"
 
+# Uncomment line to pass a csv file
+#csv_file = "#{base_path}/file.name"
+
 # Uncomment line to just see test parameters that will be passed to the API 
 #dry_run = true
 
@@ -46,6 +49,7 @@ test = Redline13::JMeter.new(redline_key,
                              test_name,
                              jmx_file,
                              servers,
+                             csv_file,
                              jvm_args,
                              jmeter_opts,
                              ubik_plugin_enabled,
