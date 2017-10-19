@@ -14,21 +14,8 @@ class JMeter
   DEFAULT_JVM_ARGS = [
     '-Djava.net.preferIPv4Stack=true',
     '-Djava.net.preferIPv6Addresses=false',
-    '-verbose:gc',
-    '-Xss256k',
-    '-XX:+UseCompressedOops', '-XX:+UseThreadPriorities',
-    '-XX:ThreadPriorityPolicy=42',
-    '-XX:MaxGCPauseMillis=250',
-    '-XX:+UseG1GC',
-    '-XX:G1ReservePercent=20'
   ]
-  DEFAULT_JM_OPTS = {
-    'jmeter.save.saveservice.assertion_results_failure_message' => 'true',
-    'jmeter.save.saveservice.connect_time' => 'true',
-    'jmeter.save.saveservice.data_type' => 'false',
-    'jmeter.save.saveservice.default_delimiter' => ';',
-    'jmeter.save.saveservice.subresults' => 'false',
-  }
+  DEFAULT_JM_OPTS = {}
   DEFAULT_TEST_PARAMS = {
     'testType' => 'jmeter-test',
     'storeOutput' => 'T',

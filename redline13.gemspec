@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'redline13'
-  s.version     = '0.3.0'
+  s.version     = '0.3.1'
   s.date        = '2017-06-21'
   s.summary     = "Interface to Redline13 API"
   s.description = "Currently supports the execution of a JMeter load-test"
